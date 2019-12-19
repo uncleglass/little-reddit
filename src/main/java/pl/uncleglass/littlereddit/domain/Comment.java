@@ -2,10 +2,7 @@ package pl.uncleglass.littlereddit.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -19,4 +16,7 @@ public class Comment {
     private Long commentId;
     @NonNull
     private String body;
+    @ManyToOne
+    @NonNull
+    private Link link;
 }
