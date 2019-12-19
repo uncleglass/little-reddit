@@ -11,11 +11,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class Link {
+public class Link extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long linkId;
+    private Long id;
     @NonNull
     private String title;
     @NonNull
