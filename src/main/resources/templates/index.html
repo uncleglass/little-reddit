@@ -2,17 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+<!--    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>-->
+    <link rel="stylesheet"
+          href="/webjars/bootstrap/4.4.1/css/bootstrap.min.css" />
     <title>Title</title>
 </head>
 <body>
+<div class="container">
+    <div th:each="link : ${linkList}">
+        <p>
+            <a th:href="@{'/links/' + ${link.id}}" th:text="${link.title}">
 
-<div th:each="link : ${linkList}">
-    <p>
-        <a th:href="@{'/links/' + ${link.id}}"  th:text="${link.title}">
-
-        </a>
-    </p>
-
+            </a>
+        </p>
+    </div>
 </div>
 
 
