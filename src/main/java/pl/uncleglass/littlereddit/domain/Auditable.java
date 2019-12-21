@@ -25,4 +25,37 @@ public abstract class Auditable {
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
+
+
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return this.creationDate;
+    }
+
+    public String getLastModifiedBy() {
+        return this.lastModifiedBy;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return this.lastModifiedDate;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
 }

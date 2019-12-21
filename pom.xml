@@ -53,7 +53,11 @@
             <artifactId>bootstrap</artifactId>
             <version>4.4.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.ocpsoft.prettytime</groupId>
+            <artifactId>prettytime</artifactId>
+            <version>4.0.1.Final</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

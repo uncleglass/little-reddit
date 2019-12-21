@@ -1,9 +1,14 @@
 package pl.uncleglass.littlereddit.domain;
 
 import lombok.*;
+import org.ocpsoft.prettytime.PrettyTime;
+import pl.uncleglass.littlereddit.services.BeanUtil;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,5 +30,14 @@ public class Link extends Auditable {
 
     public void addComment(Comment comment) {
         comments.add(comment);
+    }
+
+    public String getPrettyTime() {
+        PrettyTime prettyTime = BeanUtil.getBean(PrettyTime.class);
+        return prettyTime.format(convertToDateViaInstant(getCreationDate()));
+    }
+
+    private Date convertToDateViaInstant(LocalDateTime dateToConvert) {
+        return java.util.Date.from(dateToConvert.atZone(ZoneId.systemDefault()).toInstant());
     }
 }
