@@ -6,6 +6,7 @@ import org.ocpsoft.prettytime.PrettyTime;
 import pl.uncleglass.littlereddit.services.BeanUtil;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -25,11 +26,11 @@ public class Link extends Auditable {
     private Long id;
 
     @NonNull
-    @NotEmpty(message = "Please enter a tile.")
+    @NotBlank(message = "Please enter a tile.")
     private String title;
 
     @NonNull
-    @NotEmpty(message = "Please enter a url.")
+    @NotBlank(message = "Please enter a url.")
     @URL(message = "Please enter a valid url.")
     private String url;
 
