@@ -19,7 +19,7 @@ public class LinkController {
         this.linkRepository = linkRepository;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public String list(Model model) {
         model.addAttribute("linkList", linkRepository.findAll());
         return "index";
@@ -30,10 +30,16 @@ public class LinkController {
 //        return linkRepository.save(link);
 //    }
 //
-//    @GetMapping("/{id}")
-//    public Optional<Link> read(@PathVariable Long id) {
-//        return linkRepository.findById(id);
-//    }
+    @GetMapping("/{id}")
+    public String read(@PathVariable Long id, Model model) {
+        Optional<Link> link = linkRepository.findById(id);
+        if (link.isPresent()) {
+            model.addAttribute("link", link.get());
+            return "link"; //TODO finish this view
+        } else {
+            return "redirect:/links";
+        }
+    }
 //
 //    @PutMapping("/{id}")
 //    public Link update(@PathVariable Long id, @ModelAttribute Link link) {
