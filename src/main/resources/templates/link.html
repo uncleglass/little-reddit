@@ -7,6 +7,11 @@
 <body>
 <nav th:replace="~{fragments/fragments :: nav}"></nav>
 <div class="container">
+
+    <div class="alert alert-success" role="alert" th:if="${success}">
+        Your new link was added!
+    </div>
+
     <div class="row" >
         <div class="col-1">
             <div><a href="#" class="upvote"><i class="fas fa-arrow-up"></i></a></div>

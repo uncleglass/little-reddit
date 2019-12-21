@@ -1,10 +1,12 @@
 package pl.uncleglass.littlereddit.domain;
 
 import lombok.*;
+import org.hibernate.validator.constraints.URL;
 import org.ocpsoft.prettytime.PrettyTime;
 import pl.uncleglass.littlereddit.services.BeanUtil;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -21,10 +23,16 @@ public class Link extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NonNull
+    @NotEmpty(message = "Please enter a tile.")
     private String title;
+
     @NonNull
+    @NotEmpty(message = "Please enter a url.")
+    @URL(message = "Please enter a valid url.")
     private String url;
+
     @OneToMany(mappedBy = "link")
     private List<Comment> comments = new ArrayList<>();
 

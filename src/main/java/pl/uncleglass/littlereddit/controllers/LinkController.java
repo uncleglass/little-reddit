@@ -33,6 +33,7 @@ public class LinkController {
         Optional<Link> link = linkRepository.findById(id);
         if (link.isPresent()) {
             model.addAttribute("link", link.get());
+            model.addAttribute("success", model.containsAttribute("success"));
             return "link"; //TODO finish this view
         } else {
             return "redirect:/links";
@@ -47,7 +48,16 @@ public class LinkController {
 
     @PostMapping("/submit")
     public String createLink(@Valid Link link, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        return "submit";
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("link", link);
+            return "submit";
+        } else {
+            linkRepository.save(link);
+            redirectAttributes
+                    .addAttribute("id", link.getId())
+                    .addFlashAttribute("success", true);
+            return "redirect:/links/{id}";
+        }
     }
 
 //
