@@ -39,6 +39,14 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
+    public void addRole(Role userRole) {
+        roles.add(userRole);
+    }
+
+    public void addRoles(HashSet<Role> roles) {
+        roles.forEach(this::addRole);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
