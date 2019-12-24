@@ -19,7 +19,12 @@
                 <a th:href="@{/links/submit}"> Submit Link </a>
             </li>
             <li>
-                <a th:href="@{/login}"> Login </a>
+                <a th:href="@{/login}"> Sign In </a>
+            </li>
+            <li >
+                <form method="POST" th:action="@{/logout}">
+                    <button> Sign Out</button>
+                </form>
             </li>
         </ul>
     </div>
