@@ -10,4 +10,14 @@ public class AuthController {
     public String login() {
         return "login";
     }
+
+    @GetMapping("/profile")
+    public String profile() {
+        return "profile";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "register";
+    }
 }
