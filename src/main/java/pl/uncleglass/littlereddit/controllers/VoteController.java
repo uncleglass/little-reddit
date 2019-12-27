@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import pl.uncleglass.littlereddit.domain.Link;
 import pl.uncleglass.littlereddit.domain.Vote;
-import pl.uncleglass.littlereddit.repositories.VoteRepository;
 import pl.uncleglass.littlereddit.services.LinkService;
+import pl.uncleglass.littlereddit.services.VoteService;
 
 import java.util.Optional;
 
 @RestController
 public class VoteController {
 
-    private VoteRepository voteRepository;
+    private VoteService voteService;
     private LinkService linkService;
 
-    public VoteController(VoteRepository voteRepository, LinkService linkService) {
-        this.voteRepository = voteRepository;
+    public VoteController(VoteService voteService, LinkService linkService) {
+        this.voteService = voteService;
         this.linkService = linkService;
     }
 
@@ -29,7 +29,7 @@ public class VoteController {
         if (optionalLink.isPresent()) {
             Link link = optionalLink.get();
             Vote vote = new Vote(direction, link);
-            voteRepository.save(vote);
+            voteService.add(vote);
 
             int updatedVoteCount = voteCount + direction;
             link.setVoteCount(updatedVoteCount);
