@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.uncleglass.littlereddit.domain.Comment;
 import pl.uncleglass.littlereddit.domain.Link;
-import pl.uncleglass.littlereddit.repositories.CommentRepository;
+import pl.uncleglass.littlereddit.services.CommentService;
 import pl.uncleglass.littlereddit.services.LinkService;
 
 import javax.validation.Valid;
@@ -20,11 +20,11 @@ import java.util.Optional;
 public class LinkController {
 
     private LinkService linkService;
-    private CommentRepository commentRepository;
+    private CommentService commentService;
 
-    public LinkController(LinkService linkService, CommentRepository commentRepository) {
+    public LinkController(LinkService linkService, CommentService commentService) {
         this.linkService = linkService;
-        this.commentRepository = commentRepository;
+        this.commentService = commentService;
     }
 
     @GetMapping("/")
@@ -45,7 +45,7 @@ public class LinkController {
             model.addAttribute("success", model.containsAttribute("success"));
             return "link";
         } else {
-            return "redirect:/links";
+            return "redirect:/";
         }
     }
 
@@ -73,7 +73,7 @@ public class LinkController {
     @PostMapping("/links/comments")
     public String addComment(@Valid Comment comment, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            commentRepository.save(comment);
+            commentService.add(comment);
         }
         return "redirect:/links/" + comment.getLink().getId();
     }
