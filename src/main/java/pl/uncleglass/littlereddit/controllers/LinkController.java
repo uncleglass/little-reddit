@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.uncleglass.littlereddit.domain.Comment;
 import pl.uncleglass.littlereddit.domain.Link;
 import pl.uncleglass.littlereddit.repositories.CommentRepository;
-import pl.uncleglass.littlereddit.repositories.LinkRepository;
+import pl.uncleglass.littlereddit.services.LinkService;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -19,23 +19,23 @@ import java.util.Optional;
 @Controller
 public class LinkController {
 
-    private LinkRepository linkRepository;
+    private LinkService linkService;
     private CommentRepository commentRepository;
 
-    public LinkController(LinkRepository linkRepository, CommentRepository commentRepository) {
-        this.linkRepository = linkRepository;
+    public LinkController(LinkService linkService, CommentRepository commentRepository) {
+        this.linkService = linkService;
         this.commentRepository = commentRepository;
     }
 
     @GetMapping("/")
     public String list(Model model) {
-        model.addAttribute("linkList", linkRepository.findAll());
+        model.addAttribute("linkList", linkService.getAll());
         return "index";
     }
 
     @GetMapping("/links/{id}")
     public String read(@PathVariable Long id, Model model) {
-        Optional<Link> link = linkRepository.findById(id);
+        Optional<Link> link = linkService.get(id);
         if (link.isPresent()) {
             Link currentLink = link.get();
             Comment comment = new Comment();
@@ -43,7 +43,7 @@ public class LinkController {
             model.addAttribute("link", currentLink);
             model.addAttribute("comment", comment);
             model.addAttribute("success", model.containsAttribute("success"));
-            return "link"; //TODO finish this view
+            return "link";
         } else {
             return "redirect:/links";
         }
@@ -61,7 +61,7 @@ public class LinkController {
             model.addAttribute("link", link);
             return "submit";
         } else {
-            linkRepository.save(link);
+            linkService.add(link);
             redirectAttributes
                     .addAttribute("id", link.getId())
                     .addFlashAttribute("success", true);
