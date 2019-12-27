@@ -26,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN")
                 .antMatchers("/actuator/").hasRole("ADMIN")
                 .antMatchers("/").permitAll()
-                .antMatchers("/links").permitAll()
+                .antMatchers("/").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/links/submit").hasRole("USER")
                 .and()
@@ -37,10 +37,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .and()
                 .logout()
                     .and()
-                .rememberMe();
-//                .and()
-//                    .csrf().disable()
-//                    .headers().frameOptions().disable();
+                .rememberMe()
+                .and()
+                    .csrf().disable()
+                    .headers().frameOptions().disable();
     }
 
     @Override
