@@ -4,8 +4,10 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.uncleglass.littlereddit.domain.validators.PasswordsMatch;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
+@PasswordsMatch
 public class User implements UserDetails {
 
     @Id
@@ -38,6 +41,34 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    @NonNull
+    @NotBlank(message = "You must enter First Name.")
+    private String firstName;
+
+    @NonNull
+    @NotBlank(message = "You must enter Last Name.")
+    private String lastName;
+
+    @Transient
+    @Setter(AccessLevel.NONE)
+    private String fullName;
+
+    @Transient
+    @NotBlank(message = "Please enter Password Confirmation")
+    private String confirmPassword;
+
+    private String activationCode;
+
+    @NonNull
+    @NotBlank(message = "Please enter alias.")
+    @Column(nullable = false, unique = true)
+    private String alias;
+
+    public String getFullName(){
+        return firstName + " " + lastName;
+    }
+
 
     public void addRole(Role userRole) {
         roles.add(userRole);

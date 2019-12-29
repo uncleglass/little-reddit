@@ -42,6 +42,8 @@ public class Link extends Auditable {
 
     private int voteCount = 0;
 
+    @ManyToOne
+    private User user;
 
     public void addComment(Comment comment) {
         comments.add(comment);

@@ -24,6 +24,8 @@ public class DatabaseLoader implements CommandLineRunner {
     private RoleRepository roleRepository;
     private UserRepository userRepository;
 
+    private Map<String,User> users = new HashMap<>();
+
     public DatabaseLoader(LinkRepository linkRepository, CommentRepository commentRepository, RoleRepository roleRepository, UserRepository userRepository) {
         this.linkRepository = linkRepository;
         this.commentRepository = commentRepository;
@@ -51,11 +53,22 @@ public class DatabaseLoader implements CommandLineRunner {
 
 
         links.forEach((k, v) -> {
-            Link link = linkRepository.save(new Link(k, v));
+            User u1 = users.get("user@gmail.com");
+            User u2 = users.get("super@gmail.com");
+            Link link = new Link(k,v);
+            if(k.startsWith("Build")) {
+                link.setUser(u1);
+            } else {
+                link.setUser(u2);
+            }
+
+            linkRepository.save(link);
+
+            // we will do something with comments later
             Comment spring = new Comment("Thank you for this link related to Spring Boot. I love it, great post!",link);
             Comment security = new Comment("I love that you're talking about Spring Security",link);
             Comment pwa = new Comment("What is this Progressive Web App thing all about? PWAs sound really cool.",link);
-            Comment[] comments = {spring,security,pwa};
+            Comment comments[] = {spring,security,pwa};
             for(Comment comment : comments) {
                 commentRepository.save(comment);
                 link.addComment(comment);
@@ -73,16 +86,22 @@ public class DatabaseLoader implements CommandLineRunner {
         Role adminRole = new Role("ROLE_ADMIN");
         roleRepository.save(adminRole);
 
-        User user = new User("user@gmail.com",secret,true);
+        User user = new User("user@gmail.com",secret,true,"Joe","User","joedirt");
         user.addRole(userRole);
+        user.setConfirmPassword(secret);
         userRepository.save(user);
+        users.put("user@gmail.com",user);
 
-        User admin = new User("admin@gmail.com",secret,true);
+        User admin = new User("admin@gmail.com",secret,true,"Joe","Admin","masteradmin");
         admin.addRole(adminRole);
+        admin.setConfirmPassword(secret);
         userRepository.save(admin);
+        users.put("admin@gmail.com",admin);
 
-        User master = new User("master@gmail.com",secret,true);
+        User master = new User("master@gmail.com",secret,true,"Super","User","superduper");
         master.addRoles(new HashSet<>(Arrays.asList(userRole,adminRole)));
+        master.setConfirmPassword(secret);
         userRepository.save(master);
+        users.put("super@gmail.com",master);
     }
 }
