@@ -87,7 +87,7 @@
             const linkID = this.getAttribute("data-id");
             const voteSum = document.getElementById('votecount-' + linkID);
             const voteSumValue = voteSum.innerHTML;
-            fetch(`http://localhost:8080/vote/link/${linkID}/direction/${direction}/votecount/${voteSumValue}`)
+            fetch(`https://little-reddit-uncleglass.herokuapp.com/vote/link/${linkID}/direction/${direction}/votecount/${voteSumValue}`)
                 .then(response => response.json()) //TODO change url to proper one
         .then(data => voteSum.innerHTML = data)
         .catch(err => console.error(err));
