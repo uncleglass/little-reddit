@@ -17,7 +17,7 @@ public class MailService {
 
     private JavaMailSender javaMailSender;
     private SpringTemplateEngine templateEngine;
-    private final String BASE_URL = "http://localhost:8080";
+    private final String BASE_URL = "https://little-reddit-uncleglass.herokuapp.com";
     @Value("${spring.mail.username}")
     private String sender;
 
