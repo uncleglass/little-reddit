@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @PasswordsMatch
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
