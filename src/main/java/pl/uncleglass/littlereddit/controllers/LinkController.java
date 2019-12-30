@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.uncleglass.littlereddit.configuration.AuditorAwareImpl;
 import pl.uncleglass.littlereddit.domain.Comment;
 import pl.uncleglass.littlereddit.domain.Link;
+import pl.uncleglass.littlereddit.domain.User;
+import pl.uncleglass.littlereddit.services.BeanUtil;
 import pl.uncleglass.littlereddit.services.CommentService;
 import pl.uncleglass.littlereddit.services.LinkService;
+import pl.uncleglass.littlereddit.services.UserService;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -21,10 +25,12 @@ public class LinkController {
 
     private LinkService linkService;
     private CommentService commentService;
+    private UserService userService;
 
-    public LinkController(LinkService linkService, CommentService commentService) {
+    public LinkController(LinkService linkService, CommentService commentService, UserService userService) {
         this.linkService = linkService;
         this.commentService = commentService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -61,6 +67,15 @@ public class LinkController {
             model.addAttribute("link", link);
             return "submit";
         } else {
+            User currentUser = null;
+            Optional<String> currentAuditor = BeanUtil.getBean(AuditorAwareImpl.class).getCurrentAuditor();
+            if (currentAuditor.isPresent()) {
+                Optional<User> user = userService.get(currentAuditor.get());
+                if (user.isPresent()) {
+                    currentUser = user.get();
+                }
+            }
+            link.setUser(currentUser);
             linkService.add(link);
             redirectAttributes
                     .addAttribute("id", link.getId())
