@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-//@Component
+@Component
 public class DatabaseLoader implements CommandLineRunner {
     private LinkRepository linkRepository;
     private CommentRepository commentRepository;
