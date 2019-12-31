@@ -93,15 +93,4 @@ public class LinkController {
         return "redirect:/links/" + comment.getLink().getId();
     }
 
-//
-//    @PutMapping("/links/{id}")
-//    public Link update(@PathVariable Long id, @ModelAttribute Link link) {
-//        //get the id
-//        return linkRepository.save(link);
-//    }
-//
-//    @DeleteMapping("/links/{id}")
-//    public void delete(@PathVariable Long id) {
-//        linkRepository.deleteById(id);
-//    }
 }

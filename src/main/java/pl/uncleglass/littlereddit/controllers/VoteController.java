@@ -33,7 +33,7 @@ public class VoteController {
 
             int updatedVoteCount = voteCount + direction;
             link.setVoteCount(updatedVoteCount);
-            linkService.update(link);//TODO check whether this line is necessary
+            linkService.update(link);
             return updatedVoteCount;
         }
         return voteCount;
