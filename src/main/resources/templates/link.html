@@ -24,7 +24,7 @@
             <p class="title">
                 <a class="title " th:href="${link.url}" th:text="${link.title}" target="_blank">
                 </a>
-                <span class="domain">(<a th:href="${link.url}" ><!--th:text="${link.getDomainName()}"--> uncleglass.pl</a>)</span>
+                <span class="domain">(<a th:href="${link.url}" th:text="${link.getDomainName()}" target="_blank"> uncleglass.pl</a>)</span>
             </p>
             <p class="tagline ">submitted
                 <time th:title="${link.getCreationDate()}" th:datetime="${link.getCreationDate()}" class="live-timestamp" th:text="${link.getPrettyTime()}">1 hour(s)</time> by

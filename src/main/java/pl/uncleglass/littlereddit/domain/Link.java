@@ -8,6 +8,8 @@ import pl.uncleglass.littlereddit.services.BeanUtil;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -56,5 +58,11 @@ public class Link extends Auditable {
 
     private Date convertToDateViaInstant(LocalDateTime dateToConvert) {
         return java.util.Date.from(dateToConvert.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    public String getDomainName() throws URISyntaxException {
+        URI uri = new URI(this.url);
+        String domain = uri.getHost();
+        return domain.startsWith("www.") ? domain.substring(4) : domain;
     }
 }
