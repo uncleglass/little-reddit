@@ -23,14 +23,12 @@
                 <span class="domain">(<a th:href="${link.url}"  target="_blank">uncleglass.pl</a>)</span>
             </p>
             <p class="tagline ">submitted
-                <!--<time title="Sat Mar 10 06:26:36 2018 UTC" datetime="2018-03-10T06:26:36+00:00" class="live-timestamp">2 hours ago</time> by-->
                 <time th:title="${link.getCreationDate()}" th:datetime="${link.getCreationDate()}" class="live-timestamp" th:text="${link.getPrettyTime()}">1 hour(s)</time> by
                 <a class="author" th:text="${link.getUser().getAlias()}">uncleglass</a>
             </p>
             <p>
-                <i class="fas fa-comments"></i>
+                <i class="far fa-comment-alt"></i>
                 <a th:href="@{'/link/' + ${link.id} + '#comments'}" class="comments" th:text="|${link.getComments().size()} comments|">0 comments</a>
-                <a href="/" class="share"><i class="fas fa-share-square"></i> share</a>
             </p>
         </div>
     </div>
@@ -46,7 +44,7 @@
             const voteSum = document.getElementById('votecount-' + linkID);
             const voteSumValue = voteSum.innerHTML;
             fetch(`https://little-reddit-uncleglass.herokuapp.com/vote/link/${linkID}/direction/${direction}/votecount/${voteSumValue}`)
-                .then(response => response.json()) //TODO change url to proper one
+                .then(response => response.json())
                 .then(data => voteSum.innerHTML = data)
                 .catch(err => console.error(err));
         });

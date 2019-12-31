@@ -23,20 +23,18 @@
         <div class="col-11">
             <p class="title">
                 <a class="title " th:href="${link.url}" th:text="${link.title}" target="_blank">
-                    What's new in Spring Boot 2?
                 </a>
                 <span class="domain">(<a th:href="${link.url}" ><!--th:text="${link.getDomainName()}"--> uncleglass.pl</a>)</span>
             </p>
             <p class="tagline ">submitted
                 <time th:title="${link.getCreationDate()}" th:datetime="${link.getCreationDate()}" class="live-timestamp" th:text="${link.getPrettyTime()}">1 hour(s)</time> by
-<!--                <a th:href="@{'/u/' + ${link.getUser().getAlias()}}" class="author" th:text="${link.getUser().getAlias()}">therealdanvega</a>-->
-                <a class="author" th:text="${link.getUser().getAlias()}">therealdanvega</a>
+                <a class="author" th:text="${link.getUser().getAlias()}">created by</a>
                 <span class="userattrs"></span>
             </p>
             <p><a th:href="${link.url}" th:text="${link.url}" target="_blank"></a></p>
             <p>
+                <i class="far fa-comment-alt"></i>
                 <a href="/" class="comments" th:text="|${link.getComments().size()} comments|"><i class="fas fa-comments"></i> 0 comments</a>
-                <a href="#" class="share"><i class="fas fa-share-square"></i> share</a>
             </p>
         </div>
     </div>
@@ -65,11 +63,9 @@
         <div class="row comment" th:each="comment : ${link.getComments()}">
             <div class="col-1">&nbsp;</div>
             <div class="col-11">
-                <span><a href="#" th:text="${comment.getCreatedBy()}"><i class="far fa-user"></i> therealdanvega</a></span>
+                <span><a href="#" th:text="${comment.getCreatedBy()}"><i class="far fa-user"></i>added by </a></span>
                 <span th:text="${comment.getPrettyTime()}"><i class="far fa-clock"></i> 4 hours ago</span>
-                <p class="body" th:text="${comment.getBody()}">It’s one thing I never care about, new releases of maven. Yet I do for most other things.. I really should take a look at any features released in the last while! Pull my dependencies, run my tests and upload to nexus. I don’t care for much else, I wonder what if any I’m missing.</p>
-                <a href="#" class="permalink"><i class="fas fa-link"></i> permalink</a>
-                <a href="#" class="like"><i class="far fa-thumbs-up"></i> Like</a>
+                <p class="body" th:text="${comment.getBody()}">Comment</p>
             </div>
         </div>
 
@@ -88,7 +84,7 @@
             const voteSum = document.getElementById('votecount-' + linkID);
             const voteSumValue = voteSum.innerHTML;
             fetch(`https://little-reddit-uncleglass.herokuapp.com/vote/link/${linkID}/direction/${direction}/votecount/${voteSumValue}`)
-                .then(response => response.json()) //TODO change url to proper one
+                .then(response => response.json())
         .then(data => voteSum.innerHTML = data)
         .catch(err => console.error(err));
         });
