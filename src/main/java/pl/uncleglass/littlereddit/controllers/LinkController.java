@@ -12,10 +12,8 @@ import pl.uncleglass.littlereddit.configuration.AuditorAwareImpl;
 import pl.uncleglass.littlereddit.domain.Comment;
 import pl.uncleglass.littlereddit.domain.Link;
 import pl.uncleglass.littlereddit.domain.User;
-import pl.uncleglass.littlereddit.services.BeanUtil;
-import pl.uncleglass.littlereddit.services.CommentService;
-import pl.uncleglass.littlereddit.services.LinkService;
-import pl.uncleglass.littlereddit.services.UserService;
+import pl.uncleglass.littlereddit.domain.dtos.LinkRequest;
+import pl.uncleglass.littlereddit.services.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -26,11 +24,16 @@ public class LinkController {
     private LinkService linkService;
     private CommentService commentService;
     private UserService userService;
+    private Mapper mapper;
 
-    public LinkController(LinkService linkService, CommentService commentService, UserService userService) {
+    public LinkController(LinkService linkService,
+                          CommentService commentService,
+                          UserService userService,
+                          Mapper mapper) {
         this.linkService = linkService;
         this.commentService = commentService;
         this.userService = userService;
+        this.mapper = mapper;
     }
 
     @GetMapping("/")
@@ -57,14 +60,14 @@ public class LinkController {
 
     @GetMapping("/links/submit")
     public String newLinkForm(Model model) {
-        model.addAttribute("link",new Link());
+        model.addAttribute("link", new LinkRequest());
         return "submit";
     }
 
     @PostMapping("/links/submit")
-    public String createLink(@Valid Link link, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String createLink(LinkRequest linkRequest, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("link", link);
+            model.addAttribute("link", linkRequest);
             return "submit";
         } else {
             User currentUser = null;
@@ -75,6 +78,7 @@ public class LinkController {
                     currentUser = user.get();
                 }
             }
+            Link link = mapper.mapToLink(linkRequest);
             link.setUser(currentUser);
             linkService.add(link);
             redirectAttributes
